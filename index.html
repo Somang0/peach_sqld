@@ -35,6 +35,7 @@
         <button class="side-menu-item" data-menu="random" onclick="openRandomBuilder()"><span class="menu-icon">⤨</span><span>랜덤 퀴즈</span></button>
         <button class="side-menu-item" data-menu="wrong" onclick="startWrongExam()"><span class="menu-icon">↻</span><span>오답 다시풀기</span></button>
         <button class="side-menu-item" data-menu="bookmark" onclick="startBookmarkExam()"><span class="menu-icon">☆</span><span>북마크 문제</span></button>
+        <button class="side-menu-item" data-menu="past" onclick="openPastExams()"><span class="menu-icon">★</span><span>기출 회차별</span></button>
         <button class="side-menu-item" data-menu="mock" onclick="startMockExam()"><span class="menu-icon">⏱</span><span>실전 모의고사</span></button>
         <button class="side-menu-item" data-menu="history" onclick="openHistory()"><span class="menu-icon">▦</span><span>공부기록</span></button>
       </nav>
@@ -42,7 +43,7 @@
         <strong>문제 스킵</strong>
         <span>모든 문제풀이 모드에서 건너뛴 뒤 네비게이터로 다시 돌아올 수 있어요.</span>
       </div>
-      <div class="side-menu-version">현재 버전 <b>v12</b></div>
+      <div class="side-menu-version">현재 버전 <b>v13</b></div>
     </aside>
     <div id="sideMenuOverlay" class="side-menu-overlay" onclick="closeSideMenu()" aria-hidden="true"></div>
 
@@ -59,6 +60,7 @@
             <button class="secondary-btn" onclick="startWrongExam()">오답만 다시풀기</button>
             <button class="secondary-btn" onclick="startBookmarkExam()">북마크만 풀기</button>
             <button class="secondary-btn" onclick="openHistory()">공부기록 보기</button>
+            <button class="secondary-btn" onclick="openPastExams()">기출 회차별 풀기</button>
             <button class="secondary-btn" onclick="startMockExam()">실전 모의고사</button>
           </div>
         </div>
@@ -171,6 +173,9 @@
           <button class="tool-card" onclick="startRandomExam(20, 'all', true)">
             <strong>빠른 랜덤 20문제</strong><span>전체 범위 · 보기 순서 랜덤</span>
           </button>
+          <button class="tool-card past-tool" onclick="openPastExams()">
+            <strong>기출 회차별</strong><span>제45회~제60회 · 16회 · 800문제</span>
+          </button>
           <button class="tool-card" onclick="startMockExam()">
             <strong>실전 모의고사</strong><span>50문제 · 90분 제한</span>
           </button>
@@ -182,6 +187,32 @@
           </button>
         </div>
       </section>
+    </section>
+
+
+    <section id="pastExamScreen" class="screen">
+      <div class="section-title past-title">
+        <div>
+          <span class="eyebrow">RESTORED PAST EXAMS</span>
+          <h2>SQLD 기출 복원</h2>
+          <p class="section-description">제45회~제60회 · 총 16회 · 800문제. 사용자 제공 복원 자료를 회차별 실전 방식으로 풉니다.</p>
+        </div>
+        <button class="back-btn" onclick="goHome()">← 홈</button>
+      </div>
+
+      <div class="past-exam-summary">
+        <article><span>수록 회차</span><strong>16회</strong></article>
+        <article><span>기출 문제</span><strong id="pastQuestionCount">800</strong></article>
+        <article><span>회차당</span><strong>50문제</strong></article>
+        <article><span>제한시간</span><strong>90분</strong></article>
+      </div>
+
+      <div class="past-exam-note">
+        <strong>기출 복원 모드</strong>
+        <span>답안을 고르는 동안 정답은 공개되지 않고, 제출 후 한 번에 채점됩니다. 문제 순서와 보기 순서는 원문 기준으로 유지합니다.</span>
+      </div>
+
+      <div id="pastExamGrid" class="past-exam-grid"></div>
     </section>
 
 
@@ -199,7 +230,8 @@
         <div class="builder-block">
           <label for="randomCategory">출제 범위</label>
           <select id="randomCategory" class="builder-select">
-            <option value="all">전체 범위 (600문제)</option>
+            <option value="all">전체 범위 (1400문제)</option>
+            <option value="기출 복원">기출 복원 (800문제)</option>
             <option value="데이터 모델링의 이해">데이터 모델링의 이해</option>
             <option value="데이터 모델과 SQL">데이터 모델과 SQL</option>
             <option value="SQL 기본">SQL 기본</option>
@@ -371,7 +403,7 @@
   </div>
 
   <footer>
-    개인 학습용 SQLD CBT · <span class="footer-version">현재 버전 v12</span> · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
+    개인 학습용 SQLD CBT · <span class="footer-version">현재 버전 v13</span> · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
   </footer>
 
   <script src="assets/questions.secure.js"></script>
