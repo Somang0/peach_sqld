@@ -381,3 +381,64 @@ footer {
   .result-stats div { border-right:0; border-bottom:1px solid var(--line); }
   .result-stats div:last-child{border-bottom:0}
 }
+
+
+.timer-box {
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.tool-card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 18px;
+  padding: 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: #c7d2fe;
+}
+
+.tool-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 17px;
+}
+
+.tool-card span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.danger-tool strong {
+  color: #dc2626;
+}
+
+@media (max-width: 860px) {
+  .tool-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 560px) {
+  .tool-grid { grid-template-columns: 1fr; }
+  .quiz-header { flex-wrap: wrap; }
+  .timer-box { order: 2; }
+  .quiz-progress-area { flex-basis: 100%; order: 3; }
+}

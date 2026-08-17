@@ -4,6 +4,8 @@ let currentCategory = "all";
 let selected = false;
 let score = 0;
 let sessionWrong = [];
+let timerStartedAt = null;
+let timerInterval = null;
 
 const state = JSON.parse(localStorage.getItem("sqldState") || '{"solved":0,"correct":0,"wrongIds":[],"bookmarks":[]}');
 
@@ -13,6 +15,7 @@ function saveState() {
 }
 
 function showScreen(id) {
+  if (id !== "quizScreen") stopTimer();
   document.querySelectorAll(".screen").forEach(el => el.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   window.scrollTo({top:0, behavior:"smooth"});
@@ -52,7 +55,96 @@ function startExam(category) {
   sessionWrong = [];
   selected = false;
   showScreen("quizScreen");
+  startTimer();
   renderQuestion();
+}
+
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function startRandomExam(size = 20) {
+  currentCategory = `랜덤 ${size}문제`;
+  currentQuestions = shuffleArray(QUESTION_BANK).slice(0, Math.min(size, QUESTION_BANK.length));
+  currentIndex = 0;
+  score = 0;
+  sessionWrong = [];
+  selected = false;
+  showScreen("quizScreen");
+  startTimer();
+  renderQuestion();
+}
+
+function startWrongExam() {
+  const pool = QUESTION_BANK.filter(q => state.wrongIds.includes(q.id));
+  if (!pool.length) {
+    alert("오답노트가 비어 있어요. 먼저 문제를 풀어보세요.");
+    return;
+  }
+  currentCategory = "오답 다시풀기";
+  currentQuestions = shuffleArray(pool);
+  currentIndex = 0;
+  score = 0;
+  sessionWrong = [];
+  selected = false;
+  showScreen("quizScreen");
+  startTimer();
+  renderQuestion();
+}
+
+function startBookmarkExam() {
+  const pool = QUESTION_BANK.filter(q => state.bookmarks.includes(q.id));
+  if (!pool.length) {
+    alert("북마크한 문제가 아직 없어요.");
+    return;
+  }
+  currentCategory = "북마크 문제";
+  currentQuestions = shuffleArray(pool);
+  currentIndex = 0;
+  score = 0;
+  sessionWrong = [];
+  selected = false;
+  showScreen("quizScreen");
+  startTimer();
+  renderQuestion();
+}
+
+function startTimer() {
+  stopTimer();
+  timerStartedAt = Date.now();
+  updateTimer();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function updateTimer() {
+  if (!timerStartedAt) return;
+  const elapsed = Math.floor((Date.now() - timerStartedAt) / 1000);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+  const ss = String(elapsed % 60).padStart(2, "0");
+  const el = document.getElementById("timerText");
+  if (el) el.textContent = `${mm}:${ss}`;
+}
+
+function resetStudyData() {
+  const ok = confirm("학습 기록, 오답노트, 북마크를 모두 초기화할까요?");
+  if (!ok) return;
+  state.solved = 0;
+  state.correct = 0;
+  state.wrongIds = [];
+  state.bookmarks = [];
+  saveState();
+  alert("학습 기록을 초기화했어요.");
 }
 
 function renderQuestion() {
@@ -111,6 +203,9 @@ function answerQuestion(index) {
   if (isCorrect) {
     score += 1;
     state.correct += 1;
+    if (currentCategory === "오답 다시풀기") {
+      state.wrongIds = state.wrongIds.filter(id => id !== q.id);
+    }
   } else {
     sessionWrong.push(q.id);
     if (!state.wrongIds.includes(q.id)) state.wrongIds.push(q.id);
@@ -214,6 +309,8 @@ function refreshDashboard() {
   document.getElementById("solvedCount").textContent = state.solved;
   const accuracy = state.solved ? Math.round((state.correct / state.solved) * 100) : 0;
   document.getElementById("accuracyText").textContent = `${accuracy}%`;
+  document.getElementById("wrongNoteCount").textContent = state.wrongIds.length;
+  document.getElementById("bookmarkCount").textContent = state.bookmarks.length;
 }
 
 function escapeHtml(str) {
