@@ -1820,3 +1820,12 @@ body.sidebar-collapsed .side-menu { display: none; }
 
 .wrong-answer-rich { margin-top:8px; }
 .wrong-answer-rich .rich-table-wrap, .wrong-answer-rich .sql-code-block { margin:8px 0 0; }
+
+/* v14: unique solved-count hint */
+.stat-note {
+  font-size: 0.72em;
+  font-weight: 600;
+  opacity: 0.62;
+  margin-left: 0.25rem;
+  white-space: nowrap;
+}
