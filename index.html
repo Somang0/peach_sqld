@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQLD 문제 풀이</title>
+  <!-- Prism.js 다크모드 테마 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="main-2.css"/>
+  <link rel="icon" type="image/x-icon" href="fav.ico"/>
+</head>
+
+<body>
+
+<!-- 1. 좌측 상단 고정 토글 버튼 추가 -->
+  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">
+      ☰ <span>메뉴</span>
+  </button>
+
+  <!-- 2. 바깥 영역 클릭 시 닫히게 만드는 투명 암전 레이어 추가 -->
+  <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <div class="wrapper">
+      <!-- 왼쪽 사이드바 패널 (id="sidebar" 추가 확인) -->
+      <div id="sidebar" class="sidebar">
+          <div class="sidebar-title" style="margin-top: 10px;">SQLD 문제 네비게이터</div>
+          
+          <div class="score-board">
+              <div class="score-item">
+                  <span class="score-label">진행도</span>
+                  <span id="stat-progress" class="score-value total">0/0</span>
+              </div>
+              <div class="score-item">
+                  <span class="score-label">정답</span>
+                  <span id="stat-correct" class="score-value correct">0</span>
+              </div>
+              <div class="score-item">
+                  <span class="score-label">오답</span>
+                  <span id="stat-wrong" class="score-value wrong">0</span>
+              </div>
+          </div>
+
+          <button onclick="resetAllProgress()" style="width: 100%; padding: 10px; background: #331c1c; border: 1px solid #5c2424; color: #ff5252; border-radius: 6px; font-weight: bold; font-size: 0.85rem; cursor: pointer; margin-bottom: 20px; transition: background 0.2s;" onmouseover="this.style.background='#441f1f'" onmouseout="this.style.background='#331c1c'">
+              🔄 모든 풀이 기록 초기화
+          </button>
+          
+
+          <div id="question-grid" class="question-grid"></div>
+      </div>
+
+      <!-- 오른쪽 풀이 공간 -->
+      <div class="main-content">
+          <div class="container">
+              <div id="quiz-container"></div>
+          </div>
+      </div>
+  </div>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"aff523e737b6412db91db220e84a1ffc","r":1}' crossorigin="anonymous"></script>
+</body>
+
+  <!-- Prism.js 코드 하이라이팅 라이브러리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="main-2.js"></script>
