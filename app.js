@@ -1,1 +1,1 @@
-/* v10 protected build: application logic is bundled in assets/app.secure.js */
+/* v12 protected build: application logic is bundled in assets/app.secure.js */

@@ -42,7 +42,7 @@
         <strong>문제 스킵</strong>
         <span>모든 문제풀이 모드에서 건너뛴 뒤 네비게이터로 다시 돌아올 수 있어요.</span>
       </div>
-      <div class="side-menu-version">현재 버전 <b>v10</b></div>
+      <div class="side-menu-version">현재 버전 <b>v12</b></div>
     </aside>
     <div id="sideMenuOverlay" class="side-menu-overlay" onclick="closeSideMenu()" aria-hidden="true"></div>
 
@@ -276,22 +276,25 @@
             <div class="quiz-actions-right">
               <button class="secondary-btn skip-btn" id="skipBtn" onclick="skipQuestion()" title="나중에 다시 풀 수 있도록 건너뜁니다">건너뛰기 · 나중에 풀기 →</button>
               <button class="primary-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제</button>
+              <button class="primary-btn mock-submit-btn hidden" id="mockSubmitBtn" onclick="submitMockExam()">모의고사 제출하기</button>
             </div>
           </div>
         </article>
 
-        <aside class="quiz-navigator-card" aria-label="문제 네비게이터">
+        <aside class="quiz-navigator-card mobile-collapsed" aria-label="문제 네비게이터">
           <div class="navigator-header">
             <div>
               <strong>문제 네비게이터</strong>
               <span id="navigatorSummary">0/0 풀이</span>
             </div>
+            <button type="button" class="navigator-toggle" id="navigatorToggleBtn" onclick="toggleMobileNavigator()" aria-expanded="false">문제 이동</button>
           </div>
           <div id="questionNavigator" class="navigator-grid"></div>
           <div class="navigator-legend">
             <span><i class="legend-dot current-dot"></i>현재</span>
-            <span><i class="legend-dot correct-dot"></i>정답</span>
-            <span><i class="legend-dot wrong-dot"></i>오답</span>
+            <span class="answered-legend"><i class="legend-dot answered-dot"></i>응답</span>
+            <span class="correct-legend"><i class="legend-dot correct-dot"></i>정답</span>
+            <span class="wrong-legend"><i class="legend-dot wrong-dot"></i>오답</span>
             <span><i class="legend-dot skipped-dot"></i>건너뜀</span>
           </div>
         </aside>
@@ -314,6 +317,7 @@
         </div>
         <div class="hero-actions centered">
           <button class="primary-btn" onclick="restartCurrentExam()">다시 풀기</button>
+          <button class="secondary-btn hidden" id="reviewMockBtn" onclick="reviewMockExam()">제출 답안 검토</button>
           <button class="secondary-btn" onclick="openWrongNote()">틀린 문제 보기</button>
           <button class="secondary-btn" onclick="goHome()">홈으로</button>
         </div>
@@ -367,7 +371,7 @@
   </div>
 
   <footer>
-    개인 학습용 SQLD CBT · <span class="footer-version">현재 버전 v10</span> · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
+    개인 학습용 SQLD CBT · <span class="footer-version">현재 버전 v12</span> · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
   </footer>
 
   <script src="assets/questions.secure.js"></script>
