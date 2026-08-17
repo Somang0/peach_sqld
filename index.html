@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SQLD 자격증 학습용 CBT 연습 사이트" />
   <title>SQLD Study CBT</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topbar">
     <div class="brand" onclick="goHome()">
-      <span class="brand-logo">SQL</span>
+      <span class="brand-logo"><img src="assets/sqld-peach.png" alt="SQLD Peach" draggable="false" /></span>
       <div>
         <strong>SQLD Study</strong>
         <small>개인 학습용 CBT</small>
@@ -226,26 +227,51 @@
         </div>
       </div>
 
-      <article class="question-card">
-        <div class="question-top">
-          <span class="question-no" id="questionNo">문제 1</span>
-          <span class="question-tag" id="questionTag">SQL 기본</span>
-          <span class="wrong-count-badge hidden" id="wrongCountBadge">오답 0회</span>
-        </div>
-        <div id="questionText" class="rich-question"></div>
-        <pre id="questionCode" class="code-box hidden"></pre>
-        <div id="choices" class="choices"></div>
+      <div class="quiz-layout">
+        <article class="question-card copy-protected" data-copy-protected>
+          <div class="question-top">
+            <span class="question-no" id="questionNo">문제 1</span>
+            <span class="question-tag" id="questionTag">SQL 기본</span>
+            <span class="wrong-count-badge hidden" id="wrongCountBadge">오답 0회</span>
+            <span class="skipped-badge hidden" id="skippedBadge">건너뜀</span>
+          </div>
+          <div id="questionText" class="rich-question"></div>
+          <pre id="questionCode" class="code-box hidden"></pre>
+          <div id="choices" class="choices"></div>
 
-        <div id="answerPanel" class="answer-panel hidden">
-          <div id="answerStatus" class="answer-status"></div>
-          <div id="answerExplanation" class="answer-explanation"></div>
-        </div>
+          <div id="answerPanel" class="answer-panel hidden">
+            <div id="answerStatus" class="answer-status"></div>
+            <div id="answerExplanation" class="answer-explanation"></div>
+          </div>
 
-        <div class="quiz-actions">
-          <button class="secondary-btn" onclick="toggleBookmark()" id="bookmarkBtn">☆ 북마크</button>
-          <button class="primary-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제</button>
-        </div>
-      </article>
+          <div class="quiz-actions">
+            <div class="quiz-actions-left">
+              <button class="secondary-btn" onclick="previousQuestion()" id="prevBtn">← 이전</button>
+              <button class="secondary-btn" onclick="toggleBookmark()" id="bookmarkBtn">☆ 북마크</button>
+            </div>
+            <div class="quiz-actions-right">
+              <button class="secondary-btn skip-btn" id="skipBtn" onclick="skipQuestion()">건너뛰기 →</button>
+              <button class="primary-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제</button>
+            </div>
+          </div>
+        </article>
+
+        <aside class="quiz-navigator-card" aria-label="문제 네비게이터">
+          <div class="navigator-header">
+            <div>
+              <strong>문제 네비게이터</strong>
+              <span id="navigatorSummary">0/0 풀이</span>
+            </div>
+          </div>
+          <div id="questionNavigator" class="navigator-grid"></div>
+          <div class="navigator-legend">
+            <span><i class="legend-dot current-dot"></i>현재</span>
+            <span><i class="legend-dot correct-dot"></i>정답</span>
+            <span><i class="legend-dot wrong-dot"></i>오답</span>
+            <span><i class="legend-dot skipped-dot"></i>건너뜀</span>
+          </div>
+        </aside>
+      </div>
     </section>
 
     <section id="resultScreen" class="screen">
@@ -311,15 +337,15 @@
         </div>
         <button class="back-btn" onclick="goHome()">← 홈</button>
       </div>
-      <div id="wrongList" class="wrong-list"></div>
+      <div id="wrongList" class="wrong-list copy-protected" data-copy-protected></div>
     </section>
   </main>
 
   <footer>
-    개인 학습용 SQLD CBT · 문제와 해설은 직접 작성된 연습 콘텐츠입니다.
+    개인 학습용 SQLD CBT · v8 · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
   </footer>
 
-  <script src="questions.js"></script>
-  <script src="app.js"></script>
+  <script src="assets/questions.secure.js"></script>
+  <script src="assets/app.secure.js"></script>
 </body>
 </html>
