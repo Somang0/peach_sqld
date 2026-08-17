@@ -1,4 +1,4 @@
-# SQLD Study CBT
+# 복숭아 SQLD CBT
 
 <div align="center">
 
@@ -321,7 +321,7 @@ https://YOUR-ID.github.io/YOUR-REPOSITORY/
 
 <div align="center">
 
-## SQLD Study CBT
+## 복숭아 SQLD CBT
 
 ### `SELECT * FROM 합격 WHERE 포기 = 'N';`
 
@@ -332,7 +332,13 @@ https://YOUR-ID.github.io/YOUR-REPOSITORY/
 
 ---
 
-## Current Build · v8
+## v10 변경사항
+
+- 사이트 헤더명을 `SQLD Study`에서 `복숭아 SQLD`로 변경
+- 브라우저 탭 제목을 `복숭아 SQLD CBT`로 변경
+- 사이트 하단에 `현재 버전 v10` 배지를 표시
+
+## Current Build · v10
 
 ```text
 600 Questions
@@ -357,3 +363,17 @@ https://YOUR-ID.github.io/YOUR-REPOSITORY/
 - 앱 로직은 `assets/app.secure.js`에 난독화하여 원본 JS가 배포 파일에 그대로 노출되지 않게 구성
 
 > 브라우저에서 동작하는 클라이언트 웹사이트 특성상 완전한 복사 방지나 DRM은 불가능합니다. v8의 보호 기능은 일반적인 복사와 소스 훑어보기를 어렵게 만드는 억제 장치입니다. GitHub 저장소가 공개라면 HTML/CSS 자체는 여전히 열람할 수 있고, 숙련된 사용자는 실행 중인 데이터를 복원할 수 있습니다.
+
+
+### v10 추가
+- 왼쪽 학습 메뉴바 (모바일에서는 슬라이드 메뉴)
+- 모든 문제풀이 모드에서 문제 건너뛰기 지원
+
+### 🧭 v10 Side Menu & Skip Everywhere
+
+- 데스크톱에서는 왼쪽에 고정되는 **학습 메뉴바** 추가
+- 상단 `☰` 버튼으로 데스크톱 메뉴를 접거나 다시 펼칠 수 있음
+- 태블릿/모바일에서는 화면을 가리지 않는 **슬라이드 메뉴**로 동작
+- 홈 / 전체 문제 / 랜덤 퀴즈 / 오답 / 북마크 / 실전 모의고사 / 공부기록을 어디서든 바로 이동
+- 전체 · 과목별 · 랜덤 · 오답 · 북마크 · 실전 모의고사 등 **모든 문제풀이 모드에서 건너뛰기 사용 가능**
+- 건너뛴 문제는 기존 문제 네비게이터에서 다시 선택해 풀 수 있음

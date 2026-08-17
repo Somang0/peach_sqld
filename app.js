@@ -1,1 +1,1 @@
-/* v8 protected build: application source moved to assets/app.secure.js */
+/* v10 protected build: application logic is bundled in assets/app.secure.js */

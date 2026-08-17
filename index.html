@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="SQLD 자격증 학습용 CBT 연습 사이트" />
-  <title>SQLD Study CBT</title>
+  <title>복숭아 SQLD CBT</title>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,14 +13,38 @@
     <div class="brand" onclick="goHome()">
       <span class="brand-logo"><img src="assets/sqld-peach.png" alt="SQLD Peach" draggable="false" /></span>
       <div>
-        <strong>SQLD Study</strong>
+        <strong>복숭아 SQLD</strong>
         <small>개인 학습용 CBT</small>
       </div>
     </div>
     <div class="top-actions">
+      <button class="icon-btn menu-toggle-btn" id="sideMenuToggle" onclick="toggleSideMenu()" title="학습 메뉴 열기/닫기" aria-label="학습 메뉴 열기/닫기">☰</button>
       <button class="icon-btn" id="themeBtn" title="다크모드">🌙</button>
     </div>
   </header>
+
+  <div class="app-shell">
+    <aside id="sideMenu" class="side-menu" aria-label="주요 학습 메뉴">
+      <div class="side-menu-head">
+        <span>STUDY MENU</span>
+        <strong>복숭아 SQLD</strong>
+      </div>
+      <nav class="side-menu-nav">
+        <button class="side-menu-item active" data-menu="home" onclick="goHome()"><span class="menu-icon">⌂</span><span>홈</span></button>
+        <button class="side-menu-item" data-menu="all" onclick="startExam('all')"><span class="menu-icon">▤</span><span>전체 문제</span></button>
+        <button class="side-menu-item" data-menu="random" onclick="openRandomBuilder()"><span class="menu-icon">⤨</span><span>랜덤 퀴즈</span></button>
+        <button class="side-menu-item" data-menu="wrong" onclick="startWrongExam()"><span class="menu-icon">↻</span><span>오답 다시풀기</span></button>
+        <button class="side-menu-item" data-menu="bookmark" onclick="startBookmarkExam()"><span class="menu-icon">☆</span><span>북마크 문제</span></button>
+        <button class="side-menu-item" data-menu="mock" onclick="startMockExam()"><span class="menu-icon">⏱</span><span>실전 모의고사</span></button>
+        <button class="side-menu-item" data-menu="history" onclick="openHistory()"><span class="menu-icon">▦</span><span>공부기록</span></button>
+      </nav>
+      <div class="side-menu-note">
+        <strong>문제 스킵</strong>
+        <span>모든 문제풀이 모드에서 건너뛴 뒤 네비게이터로 다시 돌아올 수 있어요.</span>
+      </div>
+      <div class="side-menu-version">현재 버전 <b>v10</b></div>
+    </aside>
+    <div id="sideMenuOverlay" class="side-menu-overlay" onclick="closeSideMenu()" aria-hidden="true"></div>
 
   <main class="container">
     <section id="homeScreen" class="screen active">
@@ -250,7 +274,7 @@
               <button class="secondary-btn" onclick="toggleBookmark()" id="bookmarkBtn">☆ 북마크</button>
             </div>
             <div class="quiz-actions-right">
-              <button class="secondary-btn skip-btn" id="skipBtn" onclick="skipQuestion()">건너뛰기 →</button>
+              <button class="secondary-btn skip-btn" id="skipBtn" onclick="skipQuestion()" title="나중에 다시 풀 수 있도록 건너뜁니다">건너뛰기 · 나중에 풀기 →</button>
               <button class="primary-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제</button>
             </div>
           </div>
@@ -340,9 +364,10 @@
       <div id="wrongList" class="wrong-list copy-protected" data-copy-protected></div>
     </section>
   </main>
+  </div>
 
   <footer>
-    개인 학습용 SQLD CBT · v8 · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
+    개인 학습용 SQLD CBT · <span class="footer-version">현재 버전 v10</span> · 문제와 해설은 제공된 학습 자료를 기준으로 구성했습니다.
   </footer>
 
   <script src="assets/questions.secure.js"></script>

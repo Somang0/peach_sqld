@@ -1286,3 +1286,242 @@ body.dark .skipped-badge {
 .copy-protected a {
   pointer-events:auto;
 }
+
+
+/* v9 · footer version badge */
+.footer-version {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  margin: 0 4px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.82em;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+/* v10 · persistent study side menu */
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-toggle-btn {
+  width: 42px;
+  min-width: 42px;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.app-shell {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  transition: grid-template-columns .2s ease;
+}
+
+.app-shell > .container {
+  width: 100%;
+  min-width: 0;
+  margin: 38px 0 80px;
+}
+
+.side-menu {
+  position: sticky;
+  top: 92px;
+  margin-top: 38px;
+  max-height: calc(100vh - 112px);
+  overflow: auto;
+  padding: 16px;
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  z-index: 8;
+}
+
+.side-menu-head {
+  padding: 8px 8px 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.side-menu-head span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.side-menu-head strong {
+  font-size: 16px;
+}
+
+.side-menu-nav {
+  display: grid;
+  gap: 6px;
+  padding: 12px 0;
+}
+
+.side-menu-item {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  border-radius: 12px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-weight: 750;
+  cursor: pointer;
+  transition: .16s ease;
+}
+
+.side-menu-item:hover {
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 20%, var(--line));
+}
+
+.side-menu-item.active {
+  color: var(--primary);
+  background: var(--primary-soft);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--line));
+}
+
+.menu-icon {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.side-menu-item.active .menu-icon {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--line));
+}
+
+.side-menu-note {
+  margin-top: 4px;
+  padding: 13px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--primary-soft) 72%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--line));
+}
+
+.side-menu-note strong,
+.side-menu-note span {
+  display: block;
+}
+
+.side-menu-note strong {
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: var(--primary);
+}
+
+.side-menu-note span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.side-menu-version {
+  padding: 14px 7px 2px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.side-menu-version b { color: var(--primary); }
+.side-menu-overlay { display: none; }
+
+body.sidebar-collapsed .app-shell {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1130px;
+}
+
+body.sidebar-collapsed .side-menu { display: none; }
+
+/* Skip is shared by every quiz mode: all/category/random/wrong/bookmark/mock. */
+.skip-btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .app-shell {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  .app-shell > .container {
+    width: min(1080px, calc(100% - 32px));
+    margin: 38px auto 80px;
+  }
+
+  .side-menu {
+    position: fixed;
+    top: 82px;
+    left: 14px;
+    width: min(280px, calc(100vw - 52px));
+    max-height: calc(100vh - 100px);
+    margin: 0;
+    z-index: 40;
+    transform: translateX(calc(-100% - 30px));
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  .side-menu-overlay {
+    display: block;
+    position: fixed;
+    inset: 72px 0 0;
+    z-index: 35;
+    background: rgba(15, 23, 42, .42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+
+  body.sidebar-open { overflow: hidden; }
+  body.sidebar-open .side-menu {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  body.sidebar-open .side-menu-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  body.sidebar-collapsed .side-menu { display: block; }
+}
+
+@media (max-width: 560px) {
+  .topbar { padding-left: 14px; padding-right: 14px; }
+  .brand { gap: 8px; }
+  .brand strong { font-size: 14px; }
+  .brand small { font-size: 11px; }
+  .menu-toggle-btn { width: 40px; min-width: 40px; padding: 9px; }
+
+  .skip-btn {
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
