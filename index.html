@@ -1,66 +1,165 @@
-
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SQLD 문제 풀이</title>
-  <!-- Prism.js 다크모드 테마 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="main-2.css"/>
-  <link rel="icon" type="image/x-icon" href="fav.ico"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SQLD 자격증 학습용 CBT 연습 사이트" />
+  <title>SQLD Study CBT</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <header class="topbar">
+    <div class="brand" onclick="goHome()">
+      <span class="brand-logo">SQL</span>
+      <div>
+        <strong>SQLD Study</strong>
+        <small>개인 학습용 CBT</small>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" title="다크모드">🌙</button>
+    </div>
+  </header>
 
-<!-- 1. 좌측 상단 고정 토글 버튼 추가 -->
-  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">
-      ☰ <span>메뉴</span>
-  </button>
-
-  <!-- 2. 바깥 영역 클릭 시 닫히게 만드는 투명 암전 레이어 추가 -->
-  <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
-
-  <div class="wrapper">
-      <!-- 왼쪽 사이드바 패널 (id="sidebar" 추가 확인) -->
-      <div id="sidebar" class="sidebar">
-          <div class="sidebar-title" style="margin-top: 10px;">SQLD 문제 네비게이터</div>
-          
-          <div class="score-board">
-              <div class="score-item">
-                  <span class="score-label">진행도</span>
-                  <span id="stat-progress" class="score-value total">0/0</span>
-              </div>
-              <div class="score-item">
-                  <span class="score-label">정답</span>
-                  <span id="stat-correct" class="score-value correct">0</span>
-              </div>
-              <div class="score-item">
-                  <span class="score-label">오답</span>
-                  <span id="stat-wrong" class="score-value wrong">0</span>
-              </div>
+  <main class="container">
+    <section id="homeScreen" class="screen active">
+      <div class="hero">
+        <div>
+          <span class="eyebrow">SQLD EXAM PRACTICE</span>
+          <h1>SQLD를 문제로 익혀보세요.</h1>
+          <p>한 문제씩 풀고, 바로 해설을 확인하고, 틀린 문제는 오답노트에 자동 저장됩니다.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" onclick="startExam('all')">전체 문제 시작</button>
+            <button class="secondary-btn" onclick="openWrongNote()">오답노트 보기</button>
           </div>
-
-          <button onclick="resetAllProgress()" style="width: 100%; padding: 10px; background: #331c1c; border: 1px solid #5c2424; color: #ff5252; border-radius: 6px; font-weight: bold; font-size: 0.85rem; cursor: pointer; margin-bottom: 20px; transition: background 0.2s;" onmouseover="this.style.background='#441f1f'" onmouseout="this.style.background='#331c1c'">
-              🔄 모든 풀이 기록 초기화
-          </button>
-          
-
-          <div id="question-grid" class="question-grid"></div>
+        </div>
+        <div class="hero-card">
+          <div class="stat">
+            <span>전체 문제</span>
+            <strong id="totalQuestionCount">0</strong>
+          </div>
+          <div class="stat">
+            <span>푼 문제</span>
+            <strong id="solvedCount">0</strong>
+          </div>
+          <div class="stat">
+            <span>정답률</span>
+            <strong id="accuracyText">0%</strong>
+          </div>
+        </div>
       </div>
 
-      <!-- 오른쪽 풀이 공간 -->
-      <div class="main-content">
-          <div class="container">
-              <div id="quiz-container"></div>
+      <section class="section-block">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">CATEGORY</span>
+            <h2>과목별 연습</h2>
           </div>
+        </div>
+        <div class="category-grid" id="categoryGrid"></div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">QUICK REVIEW</span>
+            <h2>초압축 암기</h2>
+          </div>
+        </div>
+        <div class="memo-grid">
+          <article class="memo-card">
+            <span>GROUP BY</span>
+            <strong>같은 것끼리 묶기</strong>
+          </article>
+          <article class="memo-card">
+            <span>ROLLUP</span>
+            <strong>오른쪽부터 하나씩 삭제</strong>
+          </article>
+          <article class="memo-card">
+            <span>CUBE</span>
+            <strong>가능한 조합 전부</strong>
+          </article>
+          <article class="memo-card">
+            <span>GROUPING()</span>
+            <strong>0 = 살아있음, 1 = 집계로 빠짐</strong>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section id="quizScreen" class="screen">
+      <div class="quiz-header">
+        <button class="back-btn" onclick="goHome()">← 홈</button>
+        <div class="quiz-progress-area">
+          <div class="progress-meta">
+            <span id="quizCategory">전체 문제</span>
+            <strong id="progressText">1 / 1</strong>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
       </div>
-  </div>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"aff523e737b6412db91db220e84a1ffc","r":1}' crossorigin="anonymous"></script>
+
+      <article class="question-card">
+        <div class="question-top">
+          <span class="question-no" id="questionNo">문제 1</span>
+          <span class="question-tag" id="questionTag">SQL 기본</span>
+        </div>
+        <h2 id="questionText"></h2>
+        <pre id="questionCode" class="code-box hidden"></pre>
+        <div id="choices" class="choices"></div>
+
+        <div id="answerPanel" class="answer-panel hidden">
+          <div id="answerStatus" class="answer-status"></div>
+          <div id="answerExplanation" class="answer-explanation"></div>
+        </div>
+
+        <div class="quiz-actions">
+          <button class="secondary-btn" onclick="toggleBookmark()" id="bookmarkBtn">☆ 북마크</button>
+          <button class="primary-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="result-card">
+        <span class="eyebrow">RESULT</span>
+        <h1>문제풀이 완료</h1>
+        <div class="score-circle">
+          <strong id="scorePercent">0%</strong>
+          <span>정답률</span>
+        </div>
+        <div class="result-stats">
+          <div><span>정답</span><strong id="correctCount">0</strong></div>
+          <div><span>오답</span><strong id="wrongCount">0</strong></div>
+          <div><span>전체</span><strong id="resultTotal">0</strong></div>
+        </div>
+        <div class="hero-actions centered">
+          <button class="primary-btn" onclick="restartCurrentExam()">다시 풀기</button>
+          <button class="secondary-btn" onclick="openWrongNote()">틀린 문제 보기</button>
+          <button class="secondary-btn" onclick="goHome()">홈으로</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="wrongScreen" class="screen">
+      <div class="section-title wrong-title">
+        <div>
+          <span class="eyebrow">WRONG NOTE</span>
+          <h2>오답노트</h2>
+        </div>
+        <button class="back-btn" onclick="goHome()">← 홈</button>
+      </div>
+      <div id="wrongList" class="wrong-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    개인 학습용 SQLD CBT · 문제와 해설은 직접 작성된 연습 콘텐츠입니다.
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
 </body>
-
-  <!-- Prism.js 코드 하이라이팅 라이브러리 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
-  <script src="main-2.js"></script>
+</html>
