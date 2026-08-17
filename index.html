@@ -30,15 +30,17 @@
           <p>한 문제씩 풀고, 바로 해설을 확인하고, 틀린 문제는 오답노트에 자동 저장됩니다.</p>
           <div class="hero-actions">
             <button class="primary-btn" onclick="startExam('all')">전체 문제 시작</button>
-            <button class="secondary-btn" onclick="startRandomExam(20)">랜덤 20문제</button>
+            <button class="secondary-btn" onclick="openRandomBuilder()">랜덤 퀴즈 만들기</button>
             <button class="secondary-btn" onclick="startWrongExam()">오답만 다시풀기</button>
             <button class="secondary-btn" onclick="startBookmarkExam()">북마크만 풀기</button>
+            <button class="secondary-btn" onclick="openHistory()">공부기록 보기</button>
+            <button class="secondary-btn" onclick="startMockExam()">실전 모의고사</button>
           </div>
         </div>
         <div class="hero-card">
           <div class="stat">
             <span>전체 문제</span>
-            <strong id="totalQuestionCount">0</strong>
+            <strong id="totalQuestionCount">600</strong>
           </div>
           <div class="stat">
             <span>푼 문제</span>
@@ -84,6 +86,52 @@
         </div>
       </section>
 
+
+      <section class="section-block">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">STUDY LOG</span>
+            <h2>최근 공부기록</h2>
+          </div>
+          <button class="back-btn" onclick="openHistory()">전체 기록 →</button>
+        </div>
+        <div class="history-summary-grid">
+          <article class="summary-card"><span>완료 세션</span><strong id="sessionCountHome">0</strong></article>
+          <article class="summary-card"><span>총 공부시간</span><strong id="studyTimeHome">0분</strong></article>
+          <article class="summary-card"><span>세션 평균</span><strong id="sessionAccuracyHome">0%</strong></article>
+          <article class="summary-card"><span>최근 학습</span><strong id="lastStudyHome">-</strong></article>
+        </div>
+        <div id="recentSessionMini" class="recent-session-mini"></div>
+      </section>
+
+
+      <section class="section-block">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">ANALYTICS</span>
+            <h2>학습 분석</h2>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <article class="chart-card">
+            <div class="chart-card-head">
+              <strong>과목별 정답률</strong>
+              <small>누적 풀이 기준</small>
+            </div>
+            <div id="categoryAccuracyChart" class="bar-chart"></div>
+          </article>
+
+          <article class="chart-card">
+            <div class="chart-card-head">
+              <strong>최근 7일 공부시간</strong>
+              <small>완료 세션 기준</small>
+            </div>
+            <div id="studyTimeChart" class="bar-chart time-chart"></div>
+          </article>
+        </div>
+      </section>
+
       <section class="section-block">
         <div class="section-title">
           <div>
@@ -92,11 +140,14 @@
           </div>
         </div>
         <div class="tool-grid">
-          <button class="tool-card" onclick="startRandomExam(10)">
-            <strong>랜덤 10문제</strong><span>가볍게 빠른 복습</span>
+          <button class="tool-card" onclick="openRandomBuilder()">
+            <strong>랜덤 퀴즈 생성기</strong><span>과목 · 문제 수 · 보기 섞기 선택</span>
           </button>
-          <button class="tool-card" onclick="startRandomExam(20)">
-            <strong>랜덤 20문제</strong><span>실전 감각 점검</span>
+          <button class="tool-card" onclick="startRandomExam(20, 'all', true)">
+            <strong>빠른 랜덤 20문제</strong><span>전체 범위 · 보기 순서 랜덤</span>
+          </button>
+          <button class="tool-card" onclick="startMockExam()">
+            <strong>실전 모의고사</strong><span>50문제 · 90분 제한</span>
           </button>
           <button class="tool-card" onclick="startWrongExam()">
             <strong>오답만 다시풀기</strong><span>틀린 문제 집중 공략</span>
@@ -106,6 +157,58 @@
           </button>
         </div>
       </section>
+    </section>
+
+
+    <section id="randomScreen" class="screen">
+      <div class="section-title random-title">
+        <div>
+          <span class="eyebrow">RANDOM QUIZ</span>
+          <h2>랜덤 퀴즈 만들기</h2>
+          <p class="section-description">원하는 범위와 문제 수를 골라 바로 시작하세요.</p>
+        </div>
+        <button class="back-btn" onclick="goHome()">← 홈</button>
+      </div>
+
+      <div class="random-builder">
+        <div class="builder-block">
+          <label for="randomCategory">출제 범위</label>
+          <select id="randomCategory" class="builder-select">
+            <option value="all">전체 범위 (600문제)</option>
+            <option value="데이터 모델링의 이해">데이터 모델링의 이해</option>
+            <option value="데이터 모델과 SQL">데이터 모델과 SQL</option>
+            <option value="SQL 기본">SQL 기본</option>
+            <option value="SQL 활용">SQL 활용</option>
+            <option value="관리 구문">관리 구문</option>
+          </select>
+        </div>
+
+        <div class="builder-block">
+          <span class="builder-label">문제 수</span>
+          <div class="count-options">
+            <button class="count-chip" data-count="10" onclick="selectRandomCount(10)">10</button>
+            <button class="count-chip active" data-count="20" onclick="selectRandomCount(20)">20</button>
+            <button class="count-chip" data-count="30" onclick="selectRandomCount(30)">30</button>
+            <button class="count-chip" data-count="50" onclick="selectRandomCount(50)">50</button>
+            <button class="count-chip" data-count="100" onclick="selectRandomCount(100)">100</button>
+          </div>
+        </div>
+
+        <label class="switch-row">
+          <div>
+            <strong>보기 순서도 랜덤</strong>
+            <small>정답 위치까지 매번 섞어서 암기 효과를 줄입니다.</small>
+          </div>
+          <input type="checkbox" id="shuffleChoices" checked />
+        </label>
+
+        <div class="builder-preview">
+          <span>출제 예정</span>
+          <strong id="randomPreview">전체 범위 · 20문제</strong>
+        </div>
+
+        <button class="primary-btn builder-start" onclick="startConfiguredRandomQuiz()">랜덤 퀴즈 시작</button>
+      </div>
     </section>
 
     <section id="quizScreen" class="screen">
@@ -127,8 +230,9 @@
         <div class="question-top">
           <span class="question-no" id="questionNo">문제 1</span>
           <span class="question-tag" id="questionTag">SQL 기본</span>
+          <span class="wrong-count-badge hidden" id="wrongCountBadge">오답 0회</span>
         </div>
-        <h2 id="questionText"></h2>
+        <div id="questionText" class="rich-question"></div>
         <pre id="questionCode" class="code-box hidden"></pre>
         <div id="choices" class="choices"></div>
 
@@ -156,12 +260,46 @@
           <div><span>정답</span><strong id="correctCount">0</strong></div>
           <div><span>오답</span><strong id="wrongCount">0</strong></div>
           <div><span>전체</span><strong id="resultTotal">0</strong></div>
+          <div><span>소요시간</span><strong id="resultDuration">00:00</strong></div>
         </div>
         <div class="hero-actions centered">
           <button class="primary-btn" onclick="restartCurrentExam()">다시 풀기</button>
           <button class="secondary-btn" onclick="openWrongNote()">틀린 문제 보기</button>
           <button class="secondary-btn" onclick="goHome()">홈으로</button>
         </div>
+      </div>
+    </section>
+
+
+    <section id="historyScreen" class="screen">
+      <div class="section-title history-title">
+        <div>
+          <span class="eyebrow">STUDY HISTORY</span>
+          <h2>세션별 공부기록</h2>
+          <p class="section-description">문제풀이 한 세트를 끝낼 때마다 자동 저장됩니다.</p>
+        </div>
+        <button class="back-btn" onclick="goHome()">← 홈</button>
+      </div>
+
+      <div class="history-dashboard">
+        <article class="history-metric"><span>완료한 세션</span><strong id="historySessionCount">0</strong></article>
+        <article class="history-metric"><span>총 공부시간</span><strong id="historyStudyTime">0분</strong></article>
+        <article class="history-metric"><span>평균 정답률</span><strong id="historyAccuracy">0%</strong></article>
+        <article class="history-metric"><span>가장 많이 푼 영역</span><strong id="historyTopCategory">-</strong></article>
+      </div>
+
+      <div class="history-panel">
+        <div class="history-panel-head">
+          <div>
+            <strong>최근 세션</strong>
+            <small>최신순으로 최대 100개까지 저장</small>
+          </div>
+          <div class="history-actions">
+            <button class="secondary-btn" onclick="exportStudyHistory()">JSON 내보내기</button>
+            <button class="secondary-btn danger-text" onclick="clearStudyHistory()">세션 기록 삭제</button>
+          </div>
+        </div>
+        <div id="historyList" class="history-list"></div>
       </div>
     </section>
 
